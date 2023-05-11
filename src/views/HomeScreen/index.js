@@ -1,11 +1,12 @@
 import React, { useCallback, useEffect } from 'react'
 import { View } from 'react-native'
-import { Button, Modal, Portal, Text } from 'react-native-paper'
+import { Portal } from 'react-native-paper'
 import { useDispatch, useSelector } from 'react-redux'
-import { createContact, deleteContact, retrieveContactById, retrieveContacts, updateContact } from '../../slices/contacts'
+import { createContact, deleteContact, post, retrieveContactById, retrieveContacts, updateContact } from '../../slices/contacts'
 import ContactsList from '../../components/ContactsList'
 import Fab from '../../components/Fab'
 import ModalContact from '../../components/ModalContact'
+import Snackbar from '../../components/Snackbar'
 
 const index = () => {
     const { item, status, errorMessage, type } = useSelector(({ contacts }) => contacts)
@@ -17,9 +18,9 @@ const index = () => {
         // dispatch(retrieveContactById('93ad6070-c92b-11e8-b02f-cbfa15db428b'))
         // dispatch(deleteContact('93ad6070-c92b-11e8-b02f-cbfa15db428b'))
         // dispatch(createContact({ 
-        //         "firstName": "ujang",
-        //         "lastName": "udin",
-        //         "age": 111,
+        //         "firstName": "a",
+        //         "lastName": "b",
+        //         "age": 1,
         //         "photo": "http://vignette1.wikia.nocookie.net/lotr/images/6/68/Bilbo_baggins.jpg/revision/latest?cb=20130202022550"
         //  }))
         // dispatch(updateContact({
@@ -42,9 +43,10 @@ const index = () => {
     }, [initFetch])
 
     return (
-        <View>
+        <View style={{ flex: 1 }}>
             <ContactsList />
             <Fab />
+            <Snackbar />
             <Portal>
                 <ModalContact />
             </Portal>

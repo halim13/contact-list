@@ -38,7 +38,7 @@ export const retrieveContactById = createAsyncThunk(
 
 export const updateContact = createAsyncThunk(
     'contact/update',
-    async ({ id, data }) => {
+    async (id, data) => {
         const res = await ContactDataService.update(id, data)
         return res.data
     }
@@ -55,6 +55,11 @@ export const deleteContact = createAsyncThunk(
 const contactSlice = createSlice({
     name: 'contact',
     initialState,
+    reducers: {
+        clearErrorMessage: (state, action) => {
+            state.errorMessage = ''
+        }
+    },
     extraReducers: builder => {
         builder
             // create
@@ -70,7 +75,7 @@ const contactSlice = createSlice({
             })
             .addCase(createContact.rejected, (state, action) => {
                 state.status = status.error
-                state.errorMessage = action.error.message
+                state.errorMessage = `Error create contact(${action.error.message})`
             })
             // get list
             .addCase(retrieveContacts.pending, (state, action) => {
@@ -85,7 +90,7 @@ const contactSlice = createSlice({
             })
             .addCase(retrieveContacts.rejected, (state, action) => {
                 state.status = status.error
-                state.errorMessage = action.error.message
+                state.errorMessage = `Error get all contact(${action.error.message})`
             })
             // get by id
             .addCase(retrieveContactById.pending, (state, action) => {
@@ -100,7 +105,7 @@ const contactSlice = createSlice({
             })
             .addCase(retrieveContactById.rejected, (state, action) => {
                 state.status = status.error
-                state.errorMessage = action.error.message
+                state.errorMessage = `Error get by id contact(${action.error.message})`
             })
             // update
             .addCase(updateContact.pending, (state, action) => {
@@ -119,10 +124,11 @@ const contactSlice = createSlice({
             })
             .addCase(updateContact.rejected, (state, action) => {
                 state.status = status.error
-                state.errorMessage = action.error.message
+                state.errorMessage = `Error update contact(${action.error.message})`
             })
             // delete
             .addCase(deleteContact.pending, (state, action) => {
+                console.log('deleteting contact')
                 state.status = status.progress
                 state.errorMessage = initialState.errorMessage
                 state.item = initialState.item
@@ -133,18 +139,17 @@ const contactSlice = createSlice({
                 console.log({ action })
                 let index = state.findIndex(({ id }) => id === action.payload.data.id)
                 state.splice(index, 1)
+                console.log('contact deleted')
             })
             .addCase(deleteContact.rejected, (state, action) => {
                 state.status = status.error
-                state.errorMessage = action.error.message
-            })
-            .addDefaultCase((state, action) => {
-                console.log({
-                    default: action
-                })
+                state.errorMessage = `Error delete contact(${action.error.message})`
+                console.log('error deleted contact')
             })
     }
 })
+
+export const { clearErrorMessage } = contactSlice.actions
 
 const { reducer } = contactSlice
 

@@ -1,10 +1,10 @@
 import axios from 'axios'
 
-const baseURL = 'https://contact.herokuapp.com'
+export const baseURL = 'https://contact.herokuapp.com'
 
 export default axios.create({
     baseURL,
     headers: {
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
     }
 })

@@ -6,12 +6,11 @@ import { updateVisible } from '../slices/modal'
 
 const Fab = () => {
     const { status } = useSelector(({ contacts }) => contacts)
-    const { visible } = useSelector(({ modal }) => modal)
     const dispatch = useDispatch()
 
     const addContact = () => dispatch(updateVisible(true))
     
-    if(status === 'ready') {
+    if(status !== 'progress') {
         return (
             <FAB
                 icon='plus'
